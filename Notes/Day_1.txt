@@ -1,0 +1,95 @@
+DAY 1 of Learning Linux
+
+So first of all I have started with learning the man command whic is the most useful comand there is if I am able to master it I will not need to google commands even for searching commands 
+
+command: man [command]
+
+This is the command which will display all the details for a perticular command.
+
+Now in this we will get a seperate page in the terminal and in that we can use different things to navigate it:
+
+	/word: it can be use to search a perticular term in the page forword direction
+	?word same but in the backword direction.
+
+Now the man page itself have a structure:
+	NAME: one line discription
+	SYNOPSIS: how to call. [] means its optional, ... means repeatable, | means "or" (example of how to read the SYNOPSIS: {sort [OPTION]... [FILE]...} : this can be read as OPTION are optional and repeatable and FILE are also optional and repeatable)
+	DISCRIPTION: how to use and list of option to use along with the command
+	OPTION: flags explained
+	EXAMPLE:not always present but useful
+	EXIT STATUS: meaning of exit status returned.
+
+In the man daatabase there are differet sectios related to different type of system calls these are numbered through 1 - 8
+
+	1: use Command (ls, grep)
+	2: System calls (open, fork)
+	3: C library calls (printf, malloc)
+	4: Special files/ device (/dev)
+	5: File format and config files (passwd, fstab)
+	6: Game and screensaver (usually empty)
+	7: overview and concepts (man 7 hier (it will explain about the hirarchy of the file in thelinux system))
+	8: Admin control (mount, ip)
+
+For using the section in searchin of the command we use the flag -s [number]. (eg.: man -k -s 8 socket)
+
+
+Command: man -k "[keyword]"  (eg.: man -k "open files")
+
+This command will search the name and description for every command if that keyword is present in it and print the output. It is very useful for searching for commands for specific tasks
+
+
+Command: man -f [command]
+
+This is the command which givce a one line description for the command for which we already know the name of.
+
+
+Command: [command] --help
+
+This will give a short summary for that perticular command.
+
+Some other useful tricks in man commands:
+man -a [command] : show every matching page across section
+man -w [command] : print the file path of the page 
+man ls | grep -A2 -- -h : find a option fast witout opening the page
+
+
+
+Practice Drill:
+
+1. Open the [man ls], search for the option to sort by size. what flag it is?
+
+2. Use [man -f] on cp, ln, chmod, find and describe each of their function with how to use that command?
+
+3. what is the difference between man 1 printf and man 3 printf?
+
+4. Read the SYNOPSIS of tar and find and explain it in your words?
+
+5. Open the man 7 hier and find what is /var is for?
+
+6. Use man -k to find the command that show the disk usage?
+
+
+
+Answers: 
+
+Ans1. The command ls is used to list all the file in the current directory. The flags to sort the file according to the size:
+
+--Sort name
+-S
+Both of the command is used to list file in the assending order.(and to mane the orser reveerse we can just add asimple flag -r for the reverse order).
+
+
+Ans 2. man -f cp: it is used to copy file from one location to another
+       man -f ln: this command is used to link 2 files
+       man -f chmod : this have 2 uses one is a libc finction and another is a simple linux command to change the access of different file in the linux system
+       man -f find : this command is used to find file in the linux dir hierarchy.
+
+Ans 3. man 1 printf: this is a linux command which will print the argument provided in the given format (printf "format" "Argument")
+       man 3 printf: this is the same function present in the C library
+
+Ans 4. tar: tar {A|c|d|r|t|u|x} [option] [Arg...] =>it means the tar command The letters in the curly braces is required any one of them optioan are optional and the argument is also optional but it is repeatable 
+       find: find [-H] [-L] [-P] [-D debugopts] [-Olevel] [starting-point...] [expression]=> in this all the options/argument are optional
+
+Ans 5. The / var directory is usually used to store the file which have a variable size like the logs file, cache files game files, etc.
+
+Ans 6. So I searched first for disk usage no result came then I searchd for disk but there were too namy result the i tried with usage there were a few result the I thought I should try the space usage it gave mr command [df -alh] it list all the file in the system with all the space used bu each file. 

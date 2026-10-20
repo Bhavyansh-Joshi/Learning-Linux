@@ -1,0 +1,77 @@
+Importent Directories of Linux
+
+1. / => root of everything, where the tree of directory start
+
+2. /home => its the main workspace of the user were the personal file of each user present in their respective directories.
+
+3. /etc => this directories mainlt contain the system config files.
+
+4. /var => It contain the files which have a variable size like the logs, cache etc.
+
+5. /usr => This contain all the installed program libraries and docs.
+
+6. /proc => The is the file system whic provide information about running processes and kernel.
+
+7. /dev => it contain the device file for physical devices.
+
+8. /tmp => this contain tmp file this is wiped on reboot.
+
+
+Practice Questions:
+
+Q1. What distro version is your VM (/etc)?
+
+Q2. What's the kernal version (/proc)?
+
+Q3. How many CPU cortes do you have? Count them from /proc/cpuinfo?
+
+Q4. How many total RAM is there, in MB? (/proc/meminfo, then do the math with awk).
+
+Q5. Are /bin, /sbin and /lib real directories or symlinks? where do they point?
+
+Q6. Find the 3 biggest files in /var/log.
+
+Q7. Your shell has a Process ID in $$. Using /proc/$$, find its current working directories ant the executable it is running.
+
+Q8. Using /Dev only:
+	->throw output away
+	-> Create a 1 MB file full of zeros.
+	-> Print 16 random bytes as hex.
+	
+
+Answers:
+
+Ans1. By going to the file /etc/os-release we can get all the info about the OS
+	VERSION ="26.04.1 LTS (Resolute Raccoon)"
+
+Ans2. By going to /proc/version we get:
+	Linux Version 7.0.000-38-generic
+
+Ans3. Viewing the /proc/cpuinfo we get the info there are 2 core in the cpu. The answer is the same with nproc.
+
+Ans4. So for this we can use the file /proc/meminfo and to convert to MB we can use the below command:
+	awk -F':' '/MemTotal/ {print $2/1024}' /proc/meminfo
+      By using thi command we can print only the output for memtotal and the MB format of the RAM
+      I have also verified using the free -m command the output is the same for both.
+
+Ans5. So the /bin, /sbin and /lib are all syslinks since the color in the terminal is cyan which represent a link
+	and by using the command: ls -l /bin we can see which folder its linked to we can also use the command readlink /bin
+      /bin -> /usr/bin
+      /sbin -> /usr/sbin
+      /lib -> /usr/lib
+
+Ans6. The three bigest file in the /var/log are:
+	syslog.1
+	kern.log.1
+	syslog.3.gz
+	syslog
+      In this i have used the command: ls -haS /var/log |head -5 (Now this command Have one issue it will list only the files in the /var/log and will show the folder list size (usually 4.0 KB) not the size of all the file inside the folder)
+      So to view all the file size inside the folder we use another command: sudo du -ah /var/log | Sort -rh | head -5 this will give the actual size of the folder.
+
+Ans7. I went into the folder /proc/$$ and saw that the cwd dir is syslink so I went back to my Notes dir from there we can run the command:
+	ls -l /proc/$$/cwd it will give us the process id(1170) and the current working dir I am in right now.
+
+Ans8. So for this 
+	1. we can throw away output in the file /dev/null this is null file which contain nothing. eg. ls /etc > /dev/null
+	2. for creating a file from /dev/zeros we can use the command: dd if=/dev/zeros of=~/Learning-linux/log bs=1048576 count=1 This will create a exact 1MB file from the file containing 0 byte in the /dev dir.
+	3.Now for this we ccan use the /dev/urandom file which contain random bytes using: xxd /dev/urandom | head -16
